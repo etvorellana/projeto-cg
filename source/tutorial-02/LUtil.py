@@ -1,114 +1,97 @@
-﻿from OpenGL.GL import *
+•from OpenGL.GL import *
+2
 from OpenGL.GLU import *
+3
 from OpenGL.GLUT import *
-
+4
+​
+5
 #Constantes de Tela
+6
 SCREEN_WIDTH = 640;
+7
 SCREEN_HEIGHT = 480;
+8
 SCREEN_FPS = 60;
-
+9
+​
+10
 #Modos de cor
+11
 COLOR_MODE_CYAN = 0;
+12
 COLOR_MODE_MULTI = 1;
-
+13
+​
+14
 #Modo atual de renderização de cor
+15
 gColorMode = COLOR_MODE_CYAN;
-
+16
+​
+17
 #Scala de projeção
+18
 gProjectionScale = 1.0; #Tipo: GLfloat
-
+19
+​
+20
 def initGL():
-	#Inicializando Matriz de Projeção
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0, 1.0, -1.0);
-
-	#Inicializando Matriz de modelo de exibição (Modelview)
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	#Inicializando a tela com a cor preta
-	glClearColor(0,0,0,1);
-
-	#Verificando se há erros
-	erro = glGetError()
-	if(erro != GL_NO_ERROR):
-		print("Error initializing OpenGL! %s\n", gluErrorString(erro))
-		return False
-	return True
-
+21
+        #Inicializando Matriz de Projeção
+22
+        glMatrixMode(GL_PROJECTION);
+23
+        glLoadIdentity();
+24
+        glOrtho(0.0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0, 1.0, -1.0);
+25
+​
+26
+        #Inicializando Matriz de modelo de exibição (Modelview)
+27
+        glMatrixMode(GL_MODELVIEW);
+28
+        glLoadIdentity();
+29
+​
+30
+        #Inicializando a tela com a cor preta
+31
+        glClearColor(0,0,0,1);
+32
+​
+33
+        #Verificando se há erros
+34
+        erro = glGetError()
+35
+        if(erro != GL_NO_ERROR):
+36
+                print("Error initializing OpenGL! %s\n", gluErrorString(erro))
+37
+                return False
+38
+        return True
+39
+​
+40
 def update():
-	pass
-
+41
+        pass
+42
+​
+43
 def render():
-	#Limpando o buffer de cor
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	#Reiniciando a matriz Modelview
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	#Movendo a  para o centro da tela
-	glTranslatef(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0, 0.0);
-
-	#Renderizando o quadrado
-	if(gColorMode == COLOR_MODE_CYAN):
-		#Renderizando uma cor sólida, a partir da cor inicial ciano
-		glBegin(GL_QUADS);
-		glColor3f(0.0,1.0,1.0);
-		glVertex2f(-50, -50);
-		glVertex2f(50, -50);
-		glVertex2f(50, 50);
-		glVertex2f(-50, 50);
-		glEnd();
-	else:
-		#Se não é ciano então pode-se assumir que deve ser multicolor
-		glBegin(GL_QUADS);
-		glColor3f(1,0,0);
-		glVertex2f(-50, -50);
-		glColor3f(1,1,0);
-		glVertex2f(50, -50);
-		glColor3f(0,1,0);
-		glVertex2f(50, 50);
-		glColor3f(0,0,1);
-		glVertex2f(-50, 50);
-		glEnd();
-
-	#Atualizando tela
-	glutSwapBuffers();
-
-def runMainLoop(val):
-	#Lógica do Frame
-	update()
-	render()
-
-	#Executando o frame mais uma vez
-	glutTimerFunc(1000 // SCREEN_FPS, runMainLoop, val)
-
-def handleKeys(key,x,y):
-	global gColorMode
-	global gProjectionScale
-	key = ord(key)
-	print ("key: "+str(key))
-	#Se o usuário pressiona q
-	if(key == 113):
-		#Altera modo de cor
-		if(gColorMode == COLOR_MODE_CYAN):
-			gColorMode = COLOR_MODE_MULTI;
-		else:
-			gColorMode = COLOR_MODE_CYAN;
-		glutPostRedisplay()
-	elif(key == 101):
-		# Ciclos através de escalas de projeção
-		if(gProjectionScale == 1.0):
-			#Zoom out
-			gProjectionScale = 2.0;
-		elif(gProjectionScale == 2.0):
-			#Zoom in
-			gProjectionScale = 1.0;
-		glutPostRedisplay()
-
-	#Atualizando matriz de projeção
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, SCREEN_WIDTH * gProjectionScale, SCREEN_HEIGHT * gProjectionScale, 0.0, 1.0, -1.0);
+44
+        #Limpando o buffer de cor
+45
+        glClear(GL_COLOR_BUFFER_BIT);
+46
+​
+47
+        #Reiniciando a matriz Modelview
+48
+        glMatrixMode(GL_MODELVIEW);
+49
+        glLoadIdentity();
